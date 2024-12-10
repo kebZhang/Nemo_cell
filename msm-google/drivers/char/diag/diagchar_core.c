@@ -4498,7 +4498,7 @@ int diag_send_direct(char *message)
 {
 	struct sk_buff *skb_out;
     struct nlmsghdr *nlh;
-    int pid = 1234;  // 用户空间程序绑定的 PID
+    int pid = 1234;  // userspace PID
     int msg_size = strlen(message);
     int res;
 
@@ -4537,7 +4537,7 @@ int diag_send_nl_message(char *message, int pid, int message_len)
 	}
 
     // Allocate a new skb
-    // 创建一个 sk_buff 缓冲区
+    // create skb buffer
     // skb_out = nlmsg_new(NLMSG_DEFAULT_SIZE, GFP_KERNEL);
 	skb_out = nlmsg_new(NLMSG_SPACE(message_len), GFP_KERNEL);
 	//skb_out = alloc_skb(11,GFP_KERNEL);
@@ -4564,7 +4564,7 @@ int diag_send_nl_message(char *message, int pid, int message_len)
 	pr_err("[Tianyang] [diag_send_nl_msg] set pid copy msg data \n");
 
     // Send the message to the specified PID
-    // 向指定的 Netlink Socket 发送消息
+    // send msg to specific Netlink Socket 
 	res = nlmsg_unicast(nl_sock, skb_out, pid);
 	if(res<0)
 	{
@@ -4595,7 +4595,7 @@ int diag_send_nl_message_in(int pid, int message_len)
 	}
 
     // // Allocate a new skb
-    // // 创建一个 sk_buff 缓冲区
+    // // create sk_buff buffer
     //skb_out = nlmsg_new(NLMSG_DEFAULT_SIZE, GFP_KERNEL);
 	skb_out = nlmsg_new(NLMSG_SPACE(11), GFP_KERNEL);
 	//skb_out = alloc_skb(11,GFP_KERNEL);
@@ -4622,7 +4622,7 @@ int diag_send_nl_message_in(int pid, int message_len)
 	pr_err("[Tianyang] [diag_send_nl_msg] set pid copy msg data \n");
 
     // Send the message to the specified PID
-    // 向指定的 Netlink Socket 发送消息
+    // send msg to specific Netlink Socket
 	res = nlmsg_unicast(nl_sock, skb_out, pid);
 	if(res<0)
 	{
@@ -4690,7 +4690,7 @@ void diag_nl_recv_msg(struct sk_buff *__skb)
 int diag_netlink_init(void)
 {
 	struct netlink_kernel_cfg cfg = {
-        .input = diag_nl_recv_msg,  // 设置接收消息回调函数
+        .input = diag_nl_recv_msg,  // recall func
     };
 
     nl_sock = netlink_kernel_create(&init_net, NETLINK_USER, &cfg);

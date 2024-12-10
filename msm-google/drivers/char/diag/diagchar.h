@@ -20,7 +20,7 @@
 /*Ty add*/
 #include <linux/netlink.h>
 #include <net/sock.h>
-#define NETLINK_USER 31  // 使用用户保留协议号
+#define NETLINK_USER 31  // user protocal number
 #define MSG_SIZE 100
 #define MAX_MSGSIZE 1024
 /*Ty add end*/
